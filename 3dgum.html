@@ -8,15 +8,28 @@ Public License for more details. -->
 
 <html>
 <head>
-<title>3-D Video Chat</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script src="3dgum.js"></script>
+	<title>3-D Video Cam</title>
+	<link rel="stylesheet" href="css/3dgum.css">
 </head>
 <body>
-	<div style="text-align:center">
+	<div id="sidebar">
+		<input type="checkbox" checked="" data-toggle="switch" />
+	</div>
+	<div id="content">
+		<p>Adjust the parameters on the left pane for better viewing experience. It is best viewed in fullscreen mode. Go full screen by clicking the button below</P>
    		<video id="video" autoplay>Your browser does not support HTML5 video.</video>
 		<canvas id="canvas"></canvas>
 		<canvas id="output"></canvas>
-</div> 
+		<div class="fullscreen-button">
+          <a class="btn btn-large btn-block btn-inverse">Go Full Screen!</a>
+        </div>
+	</div>
+	<!-- Load JS here for greater good =============================-->
+    <script src="js/jquery-1.8.3.min.js"></script>
+    <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-switch.js"></script>
+    <script src="js/application.js"></script> 
+    <script src="js/3dgum.js"></script>
 </body>
 </html>

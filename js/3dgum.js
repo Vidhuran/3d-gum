@@ -44,17 +44,17 @@ $(function() {
 		output = document.getElementById("output");
 		disp = output.getContext('2d');
 		
-		canvas.width = SCREEN_WIDTH;
-		canvas.height = SCREEN_HEIGHT;
+		canvas.width = VIDEO_WIDTH;
+		canvas.height = VIDEO_HEIGHT;
 
-		output.width = SCREEN_WIDTH;
-		output.height = SCREEN_HEIGHT;
+		output.width = VIDEO_WIDTH;
+		output.height = VIDEO_HEIGHT;
 
-		setInterval(function() {
-    		copy.drawImage(video,(SCREEN_WIDTH - VIDEO_WIDTH)/2,(SCREEN_HEIGHT - VIDEO_HEIGHT)/2);
+        setInterval(function() {
+    		copy.drawImage(video,0,0);
     		// disp.drawImage(canvas,0,0);
-    		var redImage = copy.getImageData((SCREEN_WIDTH - VIDEO_WIDTH)/2,(SCREEN_HEIGHT - VIDEO_HEIGHT)/2,VIDEO_WIDTH,VIDEO_HEIGHT);
-    		var blueImage = copy.getImageData((SCREEN_WIDTH - VIDEO_WIDTH)/2,(SCREEN_HEIGHT - VIDEO_HEIGHT)/2,VIDEO_WIDTH,VIDEO_HEIGHT);
+    		var redImage = copy.getImageData(0,0,VIDEO_WIDTH,VIDEO_HEIGHT);
+    		var blueImage = copy.getImageData(0,0,VIDEO_WIDTH,VIDEO_HEIGHT);
     		var redData = redImage.data;
     		var blueData = blueImage.data;
 
@@ -91,7 +91,37 @@ $(function() {
             }
             redImage.data = redData;
     		// Draw the pixels onto the visible canvas
-    		disp.putImageData(redImage,(SCREEN_WIDTH - VIDEO_WIDTH)/2 + 25,(SCREEN_HEIGHT - VIDEO_HEIGHT)/2); 
+    		disp.putImageData(redImage,0,0); 
 
 		}, 20);
+        
+        function goFullScreen() {
+            var fullscreen = document.getElementById("output");
+            if(fullscreen.requestFullScreen)
+                fullscreen.requestFullScreen();
+            else if(fullscreen.webkitRequestFullScreen)
+                fullscreen.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+            else if(fullscreen.mozRequestFullScreen)
+                fullscreen.mozRequestFullScreen();    
+        }
+    
+        $(".fullscreen-button").bind('click',function(){
+            goFullScreen();       
+        });
+
+        // Handle fullscreen transition
+        output.onwebkitfullscreenchange = function() {
+            if(document.webkitIsFullScreen || document.mozIsFullScreen) {
+                canvas.width = screen.width;
+                canvas.height = screen.height;
+            } else {
+                canvas.width = 854; // These are your original windowed size
+                canvas.height = 480;
+            }
+
+            // Need to update the WebGL viewport.
+            gl.viewport(0, 0, canvas.width, canvas.height);
+            mat4.perspective(45.0, canvas.width/canvas.height, 1.0, 4096.0, projectionMat);
+        };
+     
 });
