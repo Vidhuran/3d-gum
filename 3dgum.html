@@ -13,15 +13,32 @@ Public License for more details. -->
 </head>
 <body>
 	<div id="sidebar">
-		<input type="checkbox" checked="" data-toggle="switch" />
+		<p class="settings">Select the color of the lenses in your 3D glass</p>
+		<div class="switch-container">	
+			<p>RED & </p>	
+			<div id="color-switch" class="switch lens-color" data-on-label="CYAN" data-off-label="BLUE"/>
+				<input type="checkbox" checked="" data-toggle="switch" />
+			</div>	
+		</div>
+		<p class="settings">Select the type of 3D effect</p>	
+		<div class="switch-container">	
+			<p>POP </p>
+			<div id="effect-switch" class="switch effect-type" data-on-label="IN" data-off-label="OUT"/>
+				<input type="checkbox" checked="" data-toggle="switch" />
+			</div>	
+		</div>
+		<p class="settings">Change the offset to get varying depths</P>
+		<div id="offset"></div>	
 	</div>
 	<div id="content">
 		<p>Adjust the parameters on the left pane for better viewing experience. It is best viewed in fullscreen mode. Go full screen by clicking the button below</P>
    		<video id="video" autoplay>Your browser does not support HTML5 video.</video>
 		<canvas id="canvas"></canvas>
-		<canvas id="output"></canvas>
+		<div class="canvas-wrapper">
+			<canvas id="output"></canvas>
+		</div>	
 		<div class="fullscreen-button">
-          <a class="btn btn-large btn-block btn-inverse">Go Full Screen!</a>
+        	<a class="btn btn-large btn-block btn-inverse">Go Full Screen!</a>
         </div>
 	</div>
 	<!-- Load JS here for greater good =============================-->
@@ -29,7 +46,6 @@ Public License for more details. -->
     <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap-switch.js"></script>
-    <script src="js/application.js"></script> 
     <script src="js/3dgum.js"></script>
 </body>
 </html>

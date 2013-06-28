@@ -12,11 +12,15 @@ var SCREEN_HEIGHT = window.innerHeight;
 var VIDEO_WIDTH = 640;
 var VIDEO_HEIGHT = 480;
 
+// Global Settings
+var lensColor = 255;  // Initially Cyan
+var popEffect = 100;  // Initialize to pop in
+
 //Global variables
 var video;
 var canvas;
 var copy;
-var ouput;
+var output;
 var disp;
 
 var onFailSoHard = function(e) {
@@ -28,7 +32,7 @@ $(function() {
 		navigator.getUserMedia  = navigator.getUserMedia || navigator.webkitGetUserMedia ||
                           navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
-		$("#video,#canvas").css("display","none");
+        $("#video,#canvas").css("display","none");
 		if (navigator.getUserMedia) {
   			navigator.getUserMedia({audio: true, video: true}, function(stream) {
     		video.src = window.URL.createObjectURL(stream);
@@ -36,6 +40,17 @@ $(function() {
 		} else {
   			video.src = 'somevideo.webm'; // fallback.
 		}
+
+        $( "#offset" ).slider({
+            range: "min",
+            value: 100,
+            min: 50,
+            max: 200,
+            slide: function( event, ui ) {
+                console.log(ui.value)
+            }
+        });
+
 
 		video = document.getElementById("video");
 		canvas = document.getElementById("canvas");
@@ -71,7 +86,7 @@ $(function() {
     		
     		// Colorize cyan
     		for(var i = 1; i < blueData.length; i+=4) {
-        		blueData[i] -= (blueData[i] - 255);
+        		blueData[i] -= (blueData[i] - lensColor);
         		blueData[i+1] -= (blueData[i+1] - 255);
     		}
     		//blueImage.data = blueData;
@@ -85,9 +100,9 @@ $(function() {
                 redData[i+2] = redData[i+2] * mixFactor;
             }
             for(var i = 0; i < redData.length; i+=4) {
-                redData[100+i] += blueData[i]*(1-mixFactor);
-                redData[100+i+1] += blueData[i+1]*(1-mixFactor);
-                redData[100+i+2] += blueData[i+2]*(1-mixFactor);
+                redData[popEffect+i] += blueData[i]*(1-mixFactor);
+                redData[popEffect+i+1] += blueData[i+1]*(1-mixFactor);
+                redData[popEffect+i+2] += blueData[i+2]*(1-mixFactor);
             }
             redImage.data = redData;
     		// Draw the pixels onto the visible canvas
@@ -109,19 +124,34 @@ $(function() {
             goFullScreen();       
         });
 
-        // Handle fullscreen transition
-        output.onwebkitfullscreenchange = function() {
-            if(document.webkitIsFullScreen || document.mozIsFullScreen) {
-                canvas.width = screen.width;
-                canvas.height = screen.height;
+        $('#color-switch').on('switch-change', function (e, data) {
+            if(data.value) {
+                lensColor = 255;
             } else {
-                canvas.width = 854; // These are your original windowed size
-                canvas.height = 480;
+                lensColor = 0;    
             }
+        });
 
-            // Need to update the WebGL viewport.
-            gl.viewport(0, 0, canvas.width, canvas.height);
-            mat4.perspective(45.0, canvas.width/canvas.height, 1.0, 4096.0, projectionMat);
+        $('#effect-switch').on('switch-change', function (e, data) {
+            if(data.value) {
+                popEffect = 100;
+            } else {
+                popEffect = -100;    
+            }
+        });
+
+        // Handle fullscreen transition
+        onFullscreenChange = function() {
+            console.log(document.mozFullScreen);
+            if(document.mozFullScreen || document.webkitIsFullScreen) {
+                //TODO:
+            }
+            else {
+                //TODO:
+            }
         };
-     
+    
+    document.addEventListener('mozfullscreenchange', onFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', onFullscreenChange); 
+
 });

@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Lato:400,700,700italic,900,400italic,300");
 #content {
-	background-color: #ecf0f1;
+	background-color: #e67e22;
 	text-align: center;
 	width: 80%;
 	height: 100%;
@@ -8,7 +8,7 @@
 }
 
 #sidebar {
-	background-color: #e67e22;
+	background-color: #d35400;
 	width: 20%;
 	height: 100%;
 	float: left;
@@ -17,6 +17,22 @@
 .fullscreen-button {
 	padding: 25px;
 }
+
+.settings {
+  clear: both;
+  padding-left:25px;
+  padding-right:25px;"
+}
+
+.switch-container > p {
+  float : left;
+  font-size: 14px;
+  padding-left: 25px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 50px;
+}
+
 
 body {
   color: #34495e;
@@ -60,6 +76,13 @@ canvas:-moz-full-screen {
   -o-transition: 0.25s;
   transition: 0.25s;
   -webkit-backface-visibility: hidden;
+}
+.btn-block {
+    -moz-box-sizing: border-box;
+    display: block;
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
 }
 .btn:hover,
 .btn:focus,
@@ -107,7 +130,6 @@ canvas:-moz-full-screen {
 }
 .btn.btn-inverse {
   background-color: #34495e;
-  width: 220px;
 }
 .btn.btn-inverse:hover,
 .btn.btn-inverse:focus,
@@ -136,8 +158,8 @@ canvas:-moz-full-screen {
   position: relative;
   text-align: left;
   width: 80px;
-  -webkit-mask: url('../images/switch/mask.png') 0 0 no-repeat;
-  mask: url('../images/switch/mask.png') 0 0 no-repeat;
+  -webkit-mask: url('../images/mask.png') 0 0 no-repeat;
+  mask: url('../images/mask.png') 0 0 no-repeat;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
